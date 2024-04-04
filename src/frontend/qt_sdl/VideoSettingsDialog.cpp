@@ -76,8 +76,8 @@ VideoSettingsDialog::VideoSettingsDialog(QWidget* parent) : QDialog(parent), ui(
         ui->cbxGLResolution->addItem(QString("%1x native (%2x%3)").arg(i).arg(256*i).arg(192*i));
     ui->cbxGLResolution->setCurrentIndex(Config::GL_ScaleFactor-1);
 
-    ui->cbxGLResolutionX->setValue(256);
-    ui->cbxGLResolutionY->setValue(192);
+    ui->cbxGLResolutionX->setValue(Config::GL_ResolutionX);
+    ui->cbxGLResolutionY->setValue(Config::GL_ResolutionY);
 
     ui->cbBetterPolygons->setChecked(Config::GL_BetterPolygons != 0);
 

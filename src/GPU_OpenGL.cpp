@@ -144,12 +144,14 @@ void GLCompositor::Reset()
 
 void GLCompositor::SetRenderSettings(RenderSettings& settings)
 {
-    int scale = settings.GL_ScaleFactor;
+    int resX = settings.GL_ResolutionX;
+    int resY = settings.GL_ResolutionY;
+    int scale = 1;
 
-    ScaleX = scale * 5;
-    ScaleY = scale * 3.75;
-    ScreenW = 256 * scale * 5;
-    ScreenH = (384+2) * scale * 3.75;
+    ScaleX = (float)resX / 256;
+    ScaleY = (float)resY / 192;
+    ScreenW = resX;
+    ScreenH = resY * 2 + 2;
 
     for (int i = 0; i < 2; i++)
     {

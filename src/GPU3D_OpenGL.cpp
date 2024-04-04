@@ -315,14 +315,15 @@ void GLRenderer::Reset()
 
 void GLRenderer::SetRenderSettings(GPU::RenderSettings& settings)
 {
-    int scale = settings.GL_ScaleFactor;
+    int resX = settings.GL_ResolutionX;
+    int resY = settings.GL_ResolutionY;
 
-    ScaleFactorX = scale * 5;
-    ScaleFactorY = scale * 3.75;
+    ScaleFactorX = (float)resX / 256;
+    ScaleFactorY = (float)resY / 192;
     BetterPolygons = settings.GL_BetterPolygons;
 
-    ScreenW = 256 * scale * 5;
-    ScreenH = 192 * scale * 3.75;
+    ScreenW = resX;
+    ScreenH = resY;
 
     glBindTexture(GL_TEXTURE_2D, FramebufferTex[0]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ScreenW, ScreenH, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);

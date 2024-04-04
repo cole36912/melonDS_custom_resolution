@@ -3029,7 +3029,7 @@ void MainWindow::onChangeScreenSize()
     int factor = ((QAction*)sender())->data().toInt();
     QSize diff = size() - panelWidget->size();
     if(factor == -1)
-        resize(QSize(1280, 720) + diff);
+        resize(QSize(Config::GL_ResolutionX, Config::GL_ResolutionY) + diff);
     else
         resize(panel->screenGetMinSize(factor) + diff);
 }
