@@ -64,6 +64,8 @@ private slots:
     void on_sbVSyncInterval_valueChanged(int val);
 
     void on_cbxGLResolution_currentIndexChanged(int idx);
+    void on_cbxGLResolutionX_valueChanged(int val);
+    void on_cbxGLResolutionY_valueChanged(int val);
     void on_cbBetterPolygons_stateChanged(int state);
 
     void on_cbSoftwareThreaded_stateChanged(int state);
@@ -80,6 +82,8 @@ private:
     int oldVSyncInterval;
     int oldSoftThreaded;
     int oldGLScale;
+    int oldGLResolutionX;
+    int oldGLResolutionY;
     int oldGLBetterPolygons;
 };
 

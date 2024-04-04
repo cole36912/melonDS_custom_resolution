@@ -159,6 +159,8 @@ struct RenderSettings
     bool Soft_Threaded;
 
     int GL_ScaleFactor;
+    int GL_ResolutionX;
+    int GL_ResolutionY;
     bool GL_BetterPolygons;
 };
 

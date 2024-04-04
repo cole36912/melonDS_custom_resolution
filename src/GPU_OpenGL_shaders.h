@@ -40,8 +40,8 @@ void main()
 
 const char* kCompositorFS_Nearest = R"(#version 140
 
-uniform uint u3DScaleX;
-uniform uint u3DScaleY;
+uniform float u3DScaleX;
+uniform float u3DScaleY;
 uniform int u3DXPos;
 
 uniform usampler2D ScreenTex;
@@ -167,8 +167,8 @@ void main()
 
 const char* kCompositorFS_Linear = R"(#version 140
 
-uniform uint u3DScaleX;
-uniform uint u3DScaleY;
+uniform float u3DScaleX;
+uniform float u3DScaleY;
 
 uniform usampler2D ScreenTex;
 uniform sampler2D _3DTex;
@@ -438,8 +438,8 @@ precision mediump float;
 #define COMPAT_PRECISION
 #endif
 
-uniform uint u3DScaleX;
-uniform uint u3DScaleY;
+uniform float u3DScaleX;
+uniform float u3DScaleY;
 
 uniform usampler2D ScreenTex;
 uniform sampler2D _3DTex;

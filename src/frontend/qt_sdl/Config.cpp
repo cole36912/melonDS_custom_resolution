@@ -56,6 +56,8 @@ int _3DRenderer;
 bool Threaded3D;
 
 int GL_ScaleFactor;
+int GL_ResolutionX;
+int GL_ResolutionY;
 bool GL_BetterPolygons;
 
 bool LimitFPS;
@@ -222,6 +224,8 @@ ConfigEntry ConfigFile[] =
     {"Threaded3D", 1, &Threaded3D, true, false},
 
     {"GL_ScaleFactor", 0, &GL_ScaleFactor, 1, false},
+    {"GL_ResolutionX", 0, &GL_ResolutionX, 256, false},
+    {"GL_ResolutionY", 0, &GL_ResolutionY, 192, false},
     {"GL_BetterPolygons", 1, &GL_BetterPolygons, false, false},
 
     {"LimitFPS", 1, &LimitFPS, true, false},
