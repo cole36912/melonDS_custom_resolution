@@ -43,11 +43,11 @@ public:
     void BindOutputTexture(int buf);
 private:
 
-    int Scale;
+    int ScaleX, ScaleY;
     int ScreenH, ScreenW;
 
     GLuint CompShader[1][3];
-    GLuint CompScaleLoc[1];
+    GLuint CompScaleLoc[2];
     GLuint Comp3DXPosLoc[1];
 
     GLuint CompVertexBufferID;

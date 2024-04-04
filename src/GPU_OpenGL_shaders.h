@@ -40,7 +40,8 @@ void main()
 
 const char* kCompositorFS_Nearest = R"(#version 140
 
-uniform uint u3DScale;
+uniform uint u3DScaleX;
+uniform uint u3DScaleY;
 uniform int u3DXPos;
 
 uniform usampler2D ScreenTex;
@@ -74,7 +75,7 @@ void main()
 
             float xpos = fTexcoord.x + _3dxpos;
             float ypos = mod(fTexcoord.y, 192);
-            ivec4 _3dpix = ivec4(texelFetch(_3DTex, ivec2(vec2(xpos, ypos)*u3DScale), 0).bgra
+            ivec4 _3dpix = ivec4(texelFetch(_3DTex, ivec2(xpos*u3DScaleX, ypos*u3DScaleY), 0).bgra
                          * vec4(63,63,63,31));
 
             if (_3dpix.a > 0)
@@ -94,7 +95,7 @@ void main()
 
             float xpos = fTexcoord.x + _3dxpos;
             float ypos = mod(fTexcoord.y, 192);
-            ivec4 _3dpix = ivec4(texelFetch(_3DTex, ivec2(vec2(xpos, ypos)*u3DScale), 0).bgra
+            ivec4 _3dpix = ivec4(texelFetch(_3DTex, ivec2(xpos*u3DScaleX, ypos*u3DScaleY), 0).bgra
                          * vec4(63,63,63,31));
 
             if (_3dpix.a > 0)
@@ -114,7 +115,7 @@ void main()
 
             float xpos = fTexcoord.x + _3dxpos;
             float ypos = mod(fTexcoord.y, 192);
-            ivec4 _3dpix = ivec4(texelFetch(_3DTex, ivec2(vec2(xpos, ypos)*u3DScale), 0).bgra
+            ivec4 _3dpix = ivec4(texelFetch(_3DTex, ivec2(xpos*u3DScaleX, ypos*u3DScaleY), 0).bgra
                          * vec4(63,63,63,31));
 
             if (_3dpix.a > 0)
@@ -166,7 +167,8 @@ void main()
 
 const char* kCompositorFS_Linear = R"(#version 140
 
-uniform uint u3DScale;
+uniform uint u3DScaleX;
+uniform uint u3DScaleY;
 
 uniform usampler2D ScreenTex;
 uniform sampler2D _3DTex;
@@ -175,9 +177,9 @@ smooth in vec2 fTexcoord;
 
 out vec4 oColor;
 
-ivec4 Get3DPixel(vec2 pos)
+ivec4 Get3DPixel(float xpos, float ypos)
 {
-    return ivec4(texelFetch(_3DTex, ivec2(pos*u3DScale), 0).bgra
+    return ivec4(texelFetch(_3DTex, ivec2(xpos*u3DScaleX,ypos*u3DScaleY), 0).bgra
          * vec4(63,63,63,31));
 }
 
@@ -259,7 +261,7 @@ void main()
 
         float xpos = val3.r + xfract;
         float ypos = mod(fTexcoord.y, 192);
-        ivec4 _3dpix = Get3DPixel(vec2(xpos,ypos));
+        ivec4 _3dpix = Get3DPixel(xpos,ypos);
 
         ivec4 p00 = GetFullPixel(val1, val2, val3, _3dpix);
 
@@ -436,7 +438,8 @@ precision mediump float;
 #define COMPAT_PRECISION
 #endif
 
-uniform uint u3DScale;
+uniform uint u3DScaleX;
+uniform uint u3DScaleY;
 
 uniform usampler2D ScreenTex;
 uniform sampler2D _3DTex;
@@ -479,9 +482,9 @@ vec4 Get2DPixel(vec2 texcoord, int level)
     return vec4(pixel) / vec4(63.0, 63.0, 63.0, 31.0);
 }
 
-ivec4 Get3DPixel(vec2 pos)
+ivec4 Get3DPixel(float xpos, float ypos)
 {
-    return ivec4(texelFetch(_3DTex, ivec2(pos*u3DScale), 0).bgra
+    return ivec4(texelFetch(_3DTex, ivec2(xpos*u3DScaleX,ypos*u3DScaleY), 0).bgra
          * vec4(63,63,63,31));
 }
 
@@ -765,7 +768,7 @@ void main()
 
         float xpos = val3.r + fract(fTexcoord.x);
         float ypos = mod(fTexcoord.y, 192);
-        ivec4 _3dpix = Get3DPixel(vec2(xpos, ypos));
+        ivec4 _3dpix = Get3DPixel(xpos, ypos);
 
         if (compmode == 4)
         {

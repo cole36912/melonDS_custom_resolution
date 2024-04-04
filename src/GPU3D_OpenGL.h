@@ -138,7 +138,8 @@ private:
     GLuint TexMemID;
     GLuint TexPalMemID;
 
-    int ScaleFactor;
+    int ScaleFactorX;
+    int ScaleFactorY;
     bool BetterPolygons;
     int ScreenW, ScreenH;
 

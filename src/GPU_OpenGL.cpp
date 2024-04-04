@@ -50,7 +50,8 @@ bool GLCompositor::Init()
         if (!OpenGL::LinkShaderProgram(CompShader[i]))
             return false;
 
-        CompScaleLoc[i] = glGetUniformLocation(CompShader[i][2], "u3DScale");
+        CompScaleLoc[i] = glGetUniformLocation(CompShader[i][2], "u3DScaleX");
+        CompScaleLoc[i + 1] = glGetUniformLocation(CompShader[i][2], "u3DScaleY");
         Comp3DXPosLoc[i] = glGetUniformLocation(CompShader[i][2], "u3DXPos");
 
         glUseProgram(CompShader[i][2]);
@@ -145,8 +146,9 @@ void GLCompositor::SetRenderSettings(RenderSettings& settings)
 {
     int scale = settings.GL_ScaleFactor;
 
-    Scale = scale;
-    ScreenW = 256 * scale;
+    ScaleX = scale * 2;
+    ScaleY = scale;
+    ScreenW = 256 * scale * 2;
     ScreenH = (384+2) * scale;
 
     for (int i = 0; i < 2; i++)
@@ -154,7 +156,7 @@ void GLCompositor::SetRenderSettings(RenderSettings& settings)
         glBindTexture(GL_TEXTURE_2D, CompScreenOutputTex[i]);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ScreenW, ScreenH, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
         // fill the padding
-        u8* zeroPixels = (u8*) calloc(1, ScreenW*2*scale*4);
+        u8* zeroPixels = (u8*) calloc(1, ScreenW*2*scale*4 * 2);
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 192*scale, ScreenW, 2*scale, GL_RGBA, GL_UNSIGNED_BYTE, zeroPixels);
 
         GLenum fbassign[] = {GL_COLOR_ATTACHMENT0};
@@ -198,7 +200,8 @@ void GLCompositor::RenderFrame()
 
     // TODO: select more shaders (filtering, etc)
     OpenGL::UseShaderProgram(CompShader[0]);
-    glUniform1ui(CompScaleLoc[0], Scale);
+    glUniform1ui(CompScaleLoc[0], ScaleX);
+    glUniform1ui(CompScaleLoc[1], ScaleY);
 
     // TODO: support setting this midframe, if ever needed
     glUniform1i(Comp3DXPosLoc[0], ((int)GPU3D::RenderXPos << 23) >> 23);
