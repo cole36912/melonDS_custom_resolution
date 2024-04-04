@@ -317,12 +317,12 @@ void GLRenderer::SetRenderSettings(GPU::RenderSettings& settings)
 {
     int scale = settings.GL_ScaleFactor;
 
-    ScaleFactorX = scale * 2;
-    ScaleFactorY = scale;
+    ScaleFactorX = scale * 5;
+    ScaleFactorY = scale * 3.75;
     BetterPolygons = settings.GL_BetterPolygons;
 
-    ScreenW = 256 * scale * 2;
-    ScreenH = 192 * scale;
+    ScreenW = 256 * scale * 5;
+    ScreenH = 192 * scale * 3.75;
 
     glBindTexture(GL_TEXTURE_2D, FramebufferTex[0]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ScreenW, ScreenH, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
@@ -428,8 +428,8 @@ u32* GLRenderer::SetupVertex(Polygon* poly, int vid, Vertex* vtx, u32 vtxattr, u
     u32 x, y;
     if (true || ScaleFactorX > 1) 
     {
-        x = (vtx->HiresPosition[0] * ScaleFactorX) >> 4;
-        y = (vtx->HiresPosition[1] * ScaleFactorY) >> 4;
+        x = (int)(vtx->HiresPosition[0] * ScaleFactorX) >> 4;
+        y = (int)(vtx->HiresPosition[1] * ScaleFactorY) >> 4;
     }
     else
     {
@@ -624,8 +624,8 @@ void GLRenderer::BuildPolygons(GLRenderer::RendererPolygon* polygons, int npolys
                 cS *= cW;
                 cT *= cW;
 
-                cX = (cX * ScaleFactorX) >> 4;
-                cY = (cY * ScaleFactorY) >> 4;
+                cX = (int)(cX * ScaleFactorX) >> 4;
+                cY = (int)(cY * ScaleFactorY) >> 4;
 
                 u32 w = (u32)cW;
 
@@ -753,7 +753,7 @@ void GLRenderer::RenderSceneChunk(int y, int h)
     u32 flags = 0;
     if (RenderPolygonRAM[0]->WBuffer) flags |= RenderFlag_WBuffer;
 
-    if (h != 192) glScissor(0, y<<ScaleFactorY, 256<<ScaleFactorX, h<<ScaleFactorX);
+    if (h != 192) glScissor(0, y<<(int)ScaleFactorY, 256<<(int)ScaleFactorX, h<<(int)ScaleFactorX);
 
     GLboolean fogenable = (RenderDispCnt & (1<<7)) ? GL_TRUE : GL_FALSE;
 

@@ -146,10 +146,10 @@ void GLCompositor::SetRenderSettings(RenderSettings& settings)
 {
     int scale = settings.GL_ScaleFactor;
 
-    ScaleX = scale * 2;
-    ScaleY = scale;
-    ScreenW = 256 * scale * 2;
-    ScreenH = (384+2) * scale;
+    ScaleX = scale * 5;
+    ScaleY = scale * 3.75;
+    ScreenW = 256 * scale * 5;
+    ScreenH = (384+2) * scale * 3.75;
 
     for (int i = 0; i < 2; i++)
     {
@@ -200,8 +200,8 @@ void GLCompositor::RenderFrame()
 
     // TODO: select more shaders (filtering, etc)
     OpenGL::UseShaderProgram(CompShader[0]);
-    glUniform1ui(CompScaleLoc[0], ScaleX);
-    glUniform1ui(CompScaleLoc[1], ScaleY);
+    glUniform1f(CompScaleLoc[0], ScaleX);
+    glUniform1f(CompScaleLoc[1], ScaleY);
 
     // TODO: support setting this midframe, if ever needed
     glUniform1i(Comp3DXPosLoc[0], ((int)GPU3D::RenderXPos << 23) >> 23);
