@@ -100,6 +100,8 @@ extern int _3DRenderer;
 extern bool Threaded3D;
 
 extern int GL_ScaleFactor;
+extern int GL_ResolutionX;
+extern int GL_ResolutionY;
 extern bool GL_BetterPolygons;
 
 extern bool LimitFPS;

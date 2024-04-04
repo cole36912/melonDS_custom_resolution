@@ -398,6 +398,7 @@ public:
     QAction* actInterfaceSettings;
     QAction* actSavestateSRAMReloc;
     QAction* actScreenSize[4];
+    QAction* scaleSize;
     QActionGroup* grpScreenRotation;
     QAction* actScreenRotation[4];
     QActionGroup* grpScreenGap;

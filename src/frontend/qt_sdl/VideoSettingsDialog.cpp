@@ -47,6 +47,8 @@ VideoSettingsDialog::VideoSettingsDialog(QWidget* parent) : QDialog(parent), ui(
     oldVSyncInterval = Config::ScreenVSyncInterval;
     oldSoftThreaded = Config::Threaded3D;
     oldGLScale = Config::GL_ScaleFactor;
+    oldGLResolutionX = Config::GL_ResolutionX;
+    oldGLResolutionY = Config::GL_ResolutionY;
     oldGLBetterPolygons = Config::GL_BetterPolygons;
 
     grp3DRenderer = new QButtonGroup(this);
@@ -74,6 +76,9 @@ VideoSettingsDialog::VideoSettingsDialog(QWidget* parent) : QDialog(parent), ui(
         ui->cbxGLResolution->addItem(QString("%1x native (%2x%3)").arg(i).arg(256*i).arg(192*i));
     ui->cbxGLResolution->setCurrentIndex(Config::GL_ScaleFactor-1);
 
+    ui->cbxGLResolutionX->setValue(256);
+    ui->cbxGLResolutionY->setValue(192);
+
     ui->cbBetterPolygons->setChecked(Config::GL_BetterPolygons != 0);
 
     if (!Config::ScreenVSync)
@@ -85,6 +90,8 @@ VideoSettingsDialog::VideoSettingsDialog(QWidget* parent) : QDialog(parent), ui(
         ui->cbGLDisplay->setEnabled(true);
         ui->cbSoftwareThreaded->setEnabled(true);
         ui->cbxGLResolution->setEnabled(false);
+        ui->cbxGLResolutionX->setEnabled(false);
+        ui->cbxGLResolutionY->setEnabled(false);
         ui->cbBetterPolygons->setEnabled(false);
     }
     else
@@ -92,6 +99,8 @@ VideoSettingsDialog::VideoSettingsDialog(QWidget* parent) : QDialog(parent), ui(
         ui->cbGLDisplay->setEnabled(false);
         ui->cbSoftwareThreaded->setEnabled(false);
         ui->cbxGLResolution->setEnabled(true);
+        ui->cbxGLResolutionX->setEnabled(true);
+        ui->cbxGLResolutionY->setEnabled(true);
         ui->cbBetterPolygons->setEnabled(true);
     }
 }
@@ -118,6 +127,8 @@ void VideoSettingsDialog::on_VideoSettingsDialog_rejected()
     Config::ScreenVSyncInterval = oldVSyncInterval;
     Config::Threaded3D = oldSoftThreaded;
     Config::GL_ScaleFactor = oldGLScale;
+    Config::GL_ResolutionX = oldGLResolutionX;
+    Config::GL_ResolutionY = oldGLResolutionY;
     Config::GL_BetterPolygons = oldGLBetterPolygons;
 
     emit updateVideoSettings(old_gl != UsesGL());
@@ -142,6 +153,8 @@ void VideoSettingsDialog::onChange3DRenderer(int renderer)
         ui->cbGLDisplay->setEnabled(true);
         ui->cbSoftwareThreaded->setEnabled(true);
         ui->cbxGLResolution->setEnabled(false);
+        ui->cbxGLResolutionX->setEnabled(false);
+        ui->cbxGLResolutionY->setEnabled(false);
         ui->cbBetterPolygons->setEnabled(false);
     }
     else
@@ -149,6 +162,8 @@ void VideoSettingsDialog::onChange3DRenderer(int renderer)
         ui->cbGLDisplay->setEnabled(false);
         ui->cbSoftwareThreaded->setEnabled(false);
         ui->cbxGLResolution->setEnabled(true);
+        ui->cbxGLResolutionX->setEnabled(true);
+        ui->cbxGLResolutionY->setEnabled(true);
         ui->cbBetterPolygons->setEnabled(true);
     }
 
@@ -196,6 +211,18 @@ void VideoSettingsDialog::on_cbxGLResolution_currentIndexChanged(int idx)
 
     setVsyncControlEnable(UsesGL());
 
+    emit updateVideoSettings(false);
+}
+
+void VideoSettingsDialog::on_cbxGLResolutionX_valueChanged(int val) {
+    Config::GL_ResolutionX = val;
+    setVsyncControlEnable(UsesGL());
+    emit updateVideoSettings(false);
+}
+
+void VideoSettingsDialog::on_cbxGLResolutionY_valueChanged(int val) {
+    Config::GL_ResolutionY = val;
+    setVsyncControlEnable(UsesGL());
     emit updateVideoSettings(false);
 }
 

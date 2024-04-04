@@ -502,6 +502,8 @@ void EmuThread::run()
     videoSettingsDirty = false;
     videoSettings.Soft_Threaded = Config::Threaded3D != 0;
     videoSettings.GL_ScaleFactor = Config::GL_ScaleFactor;
+    videoSettings.GL_ResolutionX = Config::GL_ResolutionX;
+    videoSettings.GL_ResolutionY = Config::GL_ResolutionY;
     videoSettings.GL_BetterPolygons = Config::GL_BetterPolygons;
 
     if (mainWindow->hasOGL)
@@ -595,6 +597,8 @@ void EmuThread::run()
 
                 videoSettings.Soft_Threaded = Config::Threaded3D != 0;
                 videoSettings.GL_ScaleFactor = Config::GL_ScaleFactor;
+                videoSettings.GL_ResolutionX = Config::GL_ResolutionX;
+                videoSettings.GL_ResolutionY = Config::GL_ResolutionY;
                 videoSettings.GL_BetterPolygons = Config::GL_BetterPolygons;
 
                 GPU::SetRenderSettings(videoRenderer, videoSettings);
@@ -1674,6 +1678,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent)
                 actScreenSize[i]->setData(QVariant(data));
                 connect(actScreenSize[i], &QAction::triggered, this, &MainWindow::onChangeScreenSize);
             }
+            scaleSize = submenu->addAction("Scale");
+            scaleSize->setData(QVariant(-1));
+            connect(scaleSize, &QAction::triggered, this, &MainWindow::onChangeScreenSize);
         }
         {
             QMenu* submenu = menu->addMenu("Screen rotation");
@@ -3021,7 +3028,10 @@ void MainWindow::onChangeScreenSize()
 {
     int factor = ((QAction*)sender())->data().toInt();
     QSize diff = size() - panelWidget->size();
-    resize(panel->screenGetMinSize(factor) + diff);
+    if(factor == -1)
+        resize(QSize(1280, 720) + diff);
+    else
+        resize(panel->screenGetMinSize(factor) + diff);
 }
 
 void MainWindow::onChangeScreenRotation(QAction* act)
